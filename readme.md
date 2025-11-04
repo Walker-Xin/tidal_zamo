@@ -35,9 +35,9 @@ The `integrator_unified/` directory contains the C++ code for integrating geodes
 
 | Parameter | Type | Description | Default |
 |-----------|------|-------------|---------|
-| `spin` | double | Dimensionless spin parameter a/M (0 < spin ≤ 1) | 0.5 |
-| `charge` | double | Dimensionless charge parameter Q/M (0 ≤ charge < 1) | 0.5 |
-| `lam` | double | Cosine of inclination angle (0 < lam ≤ 1) | 0.5 |
+| `spin` | double | Dimensionless spin parameter $a/M$ (0 <= `spin` <= 1) | 0.5 |
+| `charge` | double | Dimensionless charge parameter $Q/M$ (0 <= `charge` <= 1) | 0.5 |
+| `lam` | double | Cosine of inclination angle (0 <= `lam` <= 1) | 0.5 |
 | `x` | double | IBSO radius (see below) | 2.701418260779751 |
 | `total_iterations` | int | Maximum integration steps | 10000 |
 | `scale` | double | Scale factor for angular momentum lz | 1.0 |
@@ -46,10 +46,12 @@ The `integrator_unified/` directory contains the C++ code for integrating geodes
 - **spin**: Black hole rotation parameter. Set to 0 for spherical spacetime (automatically switches to Schwarzschild metric)
 - **charge**: Electric charge of the black hole. Combined with spin determines if system is in black hole (a² + Q² ≤ 1) or naked singularity (a² + Q² > 1) regime
 - **lam**: Controls orbital inclination. lam = 1 means equatorial orbit (θ = 0), lam = 0 means polar orbit (θ = π/2)
-- **x**: The radius of the Innermost Bound Spherical Orbit (IBSO) for given spin, charge, and lam. By specifying x = r_IBSO, the programme calculates the required initial angular momentum so that the photon travels on an IBSO, which is an orbit that starts from infinity but approaches the IBSO radius asymptotically.
+- **x**: The radius of the Innermost Bound Spherical Orbit (IBSO) for given spin, charge, and lam. By specifying the IBSO radius, the programme calculates the required initial angular momentum so that the photon travels on an IBSO, which is an orbit that starts from infinity but approaches the IBSO radius asymptotically. For more general orbits, one may need to modify the handling of initial conditions in `main.cpp` to allow for arbitrary angular momentum.
 - **total_iterations**: Controls simulation duration and precision
 - **scale**: Modifies the angular momentum to explore different orbital configurations
 - **eigenswitch**: Set to 0 to disable eigenvalue computation for faster execution
+
+N.B.: We assume that particles are all of unit energy ($\epsilon=1$) throughout the simulation. This limitation may be lifted by modifying the initial conditions in `main.cpp`.
 
 ### Examples
 
@@ -67,7 +69,7 @@ The same parameters as the default values. Sets the particle on an IBSO around a
 ./main 0.0 0.0 0.0 4.0 10000 1.0 1
 ```
 
-This sets the background spacetime to Schwarzschild (non-rotating, uncharged) and we use the well-known IBCO (circular equivalent of IBSO) radius of $r=4M$. Orbital inclination is irrelevant in this case and is set to zero (in fact, the programme will enforce lam=0 whenever spin=0).
+This sets the background spacetime to Schwarzschild (non-rotating, uncharged) and we use the well-known IBCO (circular equivalent of IBSO) radius of $r=4M$. Orbital inclination is irrelevant in this case and is set to zero (in fact, the programme will enforce `lam`=0 whenever `spin`=0).
 
 ### Output Files
 
@@ -88,8 +90,8 @@ The program generates output files in the `data/` directory:
 
 #### Output Labels
 
-- `pro`: Prograde orbit (lz > 0)
-- `ret`: Retrograde orbit (lz < 0)
+- `pro`: Prograde orbit ($l_z > 0$)
+- `ret`: Retrograde orbit ($l_z < 0$)
 
 ### Building and Dependencies
 
@@ -101,7 +103,7 @@ The program generates output files in the `data/` directory:
 #### Compilation
 
 ```bash
-g++ -O3 -I./Eigen main.cpp -o main
+g++ -O3 main.cpp -o main
 ```
 
 ## Usage of Mathematica Notebooks
@@ -166,7 +168,7 @@ For the Kerr-Newman spacetime, we also verify against tidal eigenvalues reported
 
 Once the tidal tensor is verified, we can export the relevant C++ code for inclusion in the integrator programme.
 
-Note that since the C++ code uses the coordinate `chi = cos(θ)`, we need to perform the substitution `theta -> ArcCos[chi]` before exporting.
+Note that since the C++ code uses the coordinate $\chi = \cos(\theta)$, we need to perform the substitution $\theta \to \arccos(\chi)$ before exporting.
 
 ## References
 
