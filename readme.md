@@ -174,3 +174,5 @@ Note that since the C++ code uses the coordinate $\chi = \cos(\theta)$, we need 
 
 - Bardeen1972 - Rotating black holes: locally nonrotating frames, energy extraction, and scalar synchrotron radiation
 - Marck1983 - Solution to the equations of parallel transport in kerr geometry; Tidal tensor
+
+This work is inspired by [RayTransfer](https://github.com/ABHModels/raytransfer).
