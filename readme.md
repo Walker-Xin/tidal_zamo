@@ -9,6 +9,10 @@ The repository is structured into two main components:
 1. **Integrator**: C++ code for numerical integration of geodesics and computation of tidal tensors along the trajectory.
 2. **Mathematica Notebooks**: Symbolic calculations of metric, Christoffel symbols, and local tidal tensors for different spacetimes.
 
+## Architecture Flowchart
+
+![Architecture flowchart showing the workflow from notebooks to integrator and output directories](flowchart.png)
+
 ## Usage of Integrator
 
 The `integrator_unified/` directory contains the C++ code for integrating geodesics and computing tidal tensors.
