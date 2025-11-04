@@ -133,12 +133,12 @@ Functions for tensor operations, coordinate transformations, etc. Do not modify 
 Input the metric components for the desired spacetime (Kerr-Newman in this case). Always use Boyer-Lindquist coordinates. We follow the metric definition set out in [Bardeen1972]:
 
 $$
-\mathrm{d}s^{2} = -e^{2\nu} \mathrm{d}t^{2} + e^{2\psi} \left( \mathrm{d}\phi - \omega \mathrm{d}t \right)^{2} + e^{2\mu_{1}} \mathrm{d}r^{2} +  e^{2\mu_{2}} \mathrm{d}\theta^{2} \, ,
+\mathrm{d}s^{2} = -e^{2\nu} \mathrm{d}t^{2} + e^{2\psi} \left( \mathrm{d}\phi - \omega \mathrm{d}t \right)^{2} + e^{2\mu_{1}} \mathrm{d}r^{2} +  e^{2\mu_{2}} \mathrm{d}\theta^{2}
 $$
 
 where $\nu$, $\psi$, $\mu_{1}$, $\mu_{2}$, and $\omega$ are functions of $r$ and $\theta$ only to be specified by the user.
 
-Next, we define the first integrals of time-like geodesics for KN spacetime. This step is not strictly necessary for constructing the tidal tensor, which in general depends on both 4-positions and 4-velocities. The first integrals can be used to replace 4-velocity with 4-positions and constants of motion, but numerical integration can always provide 4-velocities directly.
+Next, we define the first integrals of time-like geodesics for KN spacetime. This step is not strictly necessary for constructing the tidal tensor, which in general depends on both 4-positions and 4-velocities. The first integrals can be used to replace 4-velocity with 4-positions and constants of motion, but numerical integration can always provide 4-velocities directly. Here we are substituting the first integrals to verify the tidal tensor against known results in the literature; the output C++ code will still contain 4-velocity components as variables.
 
 Then we assemble the metric tensor and construct the Locally Non-Rotating Frame (LNRF) tetrad. This should be possible for any stationary, axisymmetric spacetime.
 
