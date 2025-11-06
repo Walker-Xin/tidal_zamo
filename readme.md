@@ -11,7 +11,7 @@ The repository is structured into two main components:
 
 ## Architecture Flowchart
 
-![Architecture flowchart showing the workflow from notebooks to integrator and output directories](flowchart.png)
+![Architecture flowchart showing the workflow](flowchart.png)
 
 ## Usage of Integrator
 
@@ -123,6 +123,12 @@ They are calculated by the notebook and exported as C++ files which are included
 - `metric_tensor.cpp`
 - `christoffel_symbols.cpp`
 - `Cloc_newman.cpp` (for Kerr-Newman tidal tensor) and `Cloc_spherical.cpp` (for Schwarzschild tidal tensor)
+
+### Notebook Files
+
+- `tidal_tensor_kerr.nb`: Symbolic calculation for Kerr spacetime (special case of Kerr-Newman with zero charge)
+- `tidal_tensor_newman.nb`: Symbolic calculation for Kerr-Newman spacetime
+- `tidal_tensor_spherical.nb`: Symbolic calculation for general spherically symmetric spacetime with verifications against a wide range of known results
 
 ### Workflow of Symbolic Calculation
 
