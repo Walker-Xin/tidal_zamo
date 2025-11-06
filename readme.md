@@ -19,22 +19,22 @@ The `integrator_unified/` directory contains the C++ code for integrating geodes
 
 ### File Structure
 
-- `def.h`: Global variable and constant definitions
-- `main.cpp`: Main program and parameter handling
-- `diffeqs.cpp`: Generation of equation systems according to geodesic equations
-- `raytracing.cpp`: Integration routines and geodesic equations
-- `eigen_compute.cpp`: Tensor eigenvalue analysis
-- `metric.cpp`: Spacetime metric calculations, supplied by Mathematica notebooks
-- `christoffel.cpp`: Christoffel symbol computations, supplied by Mathematica notebooks
-- `Cloc_newman.cpp` and `Cloc_spherical.cpp`: Local tidal tensor calculations for Kerr-Newman and Schwarzschild spacetimes, respectively, supplied by Mathematica notebooks
-- Additional utility files
+- `def.h`: Global variable and constant definitions.
+- `main.cpp`: Main program and parameter handling.
+- `diffeqs.cpp`: Generation of equation systems according to geodesic equations.
+- `raytracing.cpp`: Integration routines and geodesic equations.
+- `eigen_compute.cpp`: Tensor eigenvalue analysis.
+- `metric.cpp`: Spacetime metric calculations, supplied by Mathematica notebooks.
+- `christoffel.cpp`: Christoffel symbol computations, supplied by Mathematica notebooks.
+- `Cloc_newman.cpp` and `Cloc_spherical.cpp`: Local tidal tensor calculations for Kerr-Newman and Schwarzschild spacetimes, respectively, supplied by Mathematica notebooks.
+- Additional utility files.
 
 ### Building and Dependencies
 
 #### Required Libraries
 
-- Standard C++ libraries
-- Eigen library (for eigenvalue computation) which is already included in the repository under `./Eigen`
+- Standard C++ libraries.
+- Eigen library (for eigenvalue computation) which is already included in the repository under `./Eigen`.
 
 #### Compilation
 
@@ -60,13 +60,13 @@ g++ -O3 main.cpp -o main
 | `scale` | double | Scale factor for angular momentum lz | 1.0 |
 | `eigenswitch` | int | Enable/disable eigenvalue computation along trajectory (0/1) | 1 |
 
-- **spin**: Black hole rotation parameter. Set to 0 for spherical spacetime (automatically switches to Schwarzschild metric)
-- **charge**: Electric charge of the black hole. Combined with `spin` determines if system is in black hole (`spin**2 + charge**2 <= 1`) or naked singularity (`spin**2 + charge**2 > 1`) regime
-- **lam**: Controls orbital inclination. `lam=1` means equatorial orbit (`theta=0`), `lam=0` means polar orbit (`theta=pi/2`)
-- **x**: The radius of the Innermost Bound Spherical Orbit (IBSO) for given `spin`, `charge`, and `lam`. By specifying the IBSO radius, the programme calculates the required initial angular momentum so that the photon travels on an IBSO, which is an orbit that starts from infinity but approaches the IBSO radius asymptotically. For more general orbits, one may need to modify the handling of initial conditions in `main.cpp` to allow for arbitrary angular momentum.
-- **total_iterations**: Controls simulation duration and precision
-- **scale**: Modifies the angular momentum to explore different orbital configurations
-- **eigenswitch**: Set to 0 to disable eigenvalue computation for faster execution
+- **spin**: Black hole rotation parameter. Set to 0 for spherical spacetime (automatically switches to Schwarzschild metric).
+- **charge**: Electric charge of the black hole. Combined with `spin` determines if system is in black hole (`spin**2 + charge**2 <= 1`) or naked singularity (`spin**2 + charge**2 > 1`) regime.
+- **lam**: Controls orbital inclination. `lam=1` means equatorial orbit (`theta=0`), `lam=0` means polar orbit (`theta=pi/2`).
+- **x**: The radius of the Innermost Bound Spherical Orbit (IBSO) for given `spin`, `charge`, and `lam`. By specifying the IBSO radius, the programme calculates the required initial angular momentum so that the photon travels on an IBSO, which is an orbit that starts from infinity but approaches the IBSO radius asymptotically. For generic orbits, one needs to modify the handling of initial conditions in `main.cpp` to allow for arbitrary angular momentum.
+- **total_iterations**: Controls simulation duration and precision.
+- **scale**: Modifies the angular momentum to explore different orbital configurations.
+- **eigenswitch**: Set to 0 to disable eigenvalue computation for faster execution.
 
 N.B.: We assume that particles are all of unit energy ($\epsilon=1$) throughout the simulation. This limitation may be lifted by modifying the initial conditions in `main.cpp`.
 
@@ -103,12 +103,12 @@ The program generates output files in the `data/` directory:
 #### Eigenvalue Data (if eigenswitch=1)
 
 - **Filename**: `eigensystem_a_[spin]_Q_[charge]_lambda_[lam]_[pro/ret].dat`
-- **Description**: Tidal tensor eigenvalues and eigenvectors at each trajectory point
+- **Description**: Tidal tensor eigenvalues and eigenvectors at each trajectory point.
 
 #### Output Labels
 
-- `pro`: Prograde orbit ($l_z > 0$)
-- `ret`: Retrograde orbit ($l_z < 0$)
+- `pro`: Prograde orbit ($l_z > 0$).
+- `ret`: Retrograde orbit ($l_z < 0$).
 
 ## Usage of Mathematica Notebooks
 
@@ -126,9 +126,9 @@ They are calculated by the notebook and exported as C++ files which are included
 
 ### Notebook Files
 
-- `tidal_tensor_kerr.nb`: Symbolic calculation for Kerr spacetime (special case of Kerr-Newman with zero charge)
-- `tidal_tensor_newman.nb`: Symbolic calculation for Kerr-Newman spacetime
-- `tidal_tensor_spherical.nb`: Symbolic calculation for general spherically symmetric spacetime with verifications against a wide range of known results
+- `tidal_tensor_kerr.nb`: Symbolic calculation for Kerr spacetime (special case of Kerr-Newman with zero charge).
+- `tidal_tensor_newman.nb`: Symbolic calculation for Kerr-Newman spacetime.
+- `tidal_tensor_spherical.nb`: Symbolic calculation for general spherically symmetric spacetime with verifications against a wide range of known results.
 
 ### Workflow of Symbolic Calculation
 
@@ -168,9 +168,9 @@ The next step is to use Lorentz boosts to boost the LNRF tidal tensor into the p
 
 Finally, we can test some known properties of the tidal tensor:
 
-1. Symmetry: $C_{\mu\nu} = C_{\nu\mu}$
-2. Always has one row and one column of zeros corresponding to the time direction, implying a zero determinant
-3. Trace is dependent on the Ricci tensor
+1. Symmetry: $C_{\mu\nu} = C_{\nu\mu}$.
+2. Always has one row and one column of zeros corresponding to the time direction, implying a zero determinant.
+3. Trace is dependent on the Ricci tensor.
 
 For the Kerr-Newman spacetime, we also verify against tidal eigenvalues reported in the literature (e.g. [Marck1983]).
 
