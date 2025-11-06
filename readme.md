@@ -9,7 +9,7 @@ The repository is structured into two main components:
 1. **Integrator**: C++ code for numerical integration of geodesics and computation of tidal tensors along the trajectory.
 2. **Mathematica Notebooks**: Symbolic calculations of metric, Christoffel symbols, and local tidal tensors for different spacetimes.
 
-## Architecture Flowchart
+The overall workflow is illustrated below:
 
 ![Architecture flowchart showing the workflow](flowchart.png)
 
@@ -29,11 +29,24 @@ The `integrator_unified/` directory contains the C++ code for integrating geodes
 - `Cloc_newman.cpp` and `Cloc_spherical.cpp`: Local tidal tensor calculations for Kerr-Newman and Schwarzschild spacetimes, respectively, supplied by Mathematica notebooks
 - Additional utility files
 
-### Basic Command Line Interface
+### Building and Dependencies
+
+#### Required Libraries
+
+- Standard C++ libraries
+- Eigen library (for eigenvalue computation) which is already included in the repository under `./Eigen`
+
+#### Compilation
 
 ```bash
-./main <spin> <charge> <lam> <x> <total_iterations> <scale> <eigenswitch>
+g++ -O3 main.cpp -o main
 ```
+
+### Basic Command Line Interface
+
+``bash
+./main <spin> <charge> <lam> <x> <total_iterations> <scale> <eigenswitch>
+``
 
 ### Parameters and Descriptions
 
@@ -48,9 +61,9 @@ The `integrator_unified/` directory contains the C++ code for integrating geodes
 | `eigenswitch` | int | Enable/disable eigenvalue computation along trajectory (0/1) | 1 |
 
 - **spin**: Black hole rotation parameter. Set to 0 for spherical spacetime (automatically switches to Schwarzschild metric)
-- **charge**: Electric charge of the black hole. Combined with spin determines if system is in black hole (a² + Q² ≤ 1) or naked singularity (a² + Q² > 1) regime
-- **lam**: Controls orbital inclination. lam = 1 means equatorial orbit (θ = 0), lam = 0 means polar orbit (θ = π/2)
-- **x**: The radius of the Innermost Bound Spherical Orbit (IBSO) for given spin, charge, and lam. By specifying the IBSO radius, the programme calculates the required initial angular momentum so that the photon travels on an IBSO, which is an orbit that starts from infinity but approaches the IBSO radius asymptotically. For more general orbits, one may need to modify the handling of initial conditions in `main.cpp` to allow for arbitrary angular momentum.
+- **charge**: Electric charge of the black hole. Combined with `spin` determines if system is in black hole (`spin**2 + charge**2 <= 1`) or naked singularity (`spin**2 + charge**2 > 1`) regime
+- **lam**: Controls orbital inclination. `lam=1` means equatorial orbit (`theta=0`), `lam=0` means polar orbit (`theta=pi/2`)
+- **x**: The radius of the Innermost Bound Spherical Orbit (IBSO) for given `spin`, `charge`, and `lam`. By specifying the IBSO radius, the programme calculates the required initial angular momentum so that the photon travels on an IBSO, which is an orbit that starts from infinity but approaches the IBSO radius asymptotically. For more general orbits, one may need to modify the handling of initial conditions in `main.cpp` to allow for arbitrary angular momentum.
 - **total_iterations**: Controls simulation duration and precision
 - **scale**: Modifies the angular momentum to explore different orbital configurations
 - **eigenswitch**: Set to 0 to disable eigenvalue computation for faster execution
@@ -73,7 +86,7 @@ The same parameters as the default values. Sets the particle on an IBSO around a
 ./main 0.0 0.0 0.0 4.0 10000 1.0 1
 ```
 
-This sets the background spacetime to Schwarzschild (non-rotating, uncharged) and we use the well-known IBCO (circular equivalent of IBSO) radius of $r=4M$. Orbital inclination is irrelevant in this case and is set to zero (in fact, the programme will enforce `lam`=0 whenever `spin`=0).
+This sets the background spacetime to Schwarzschild (non-rotating, uncharged) and we use the well-known IBCO (circular equivalent of IBSO) radius of $r=4M$. Orbital inclination is irrelevant in this case and is set to zero (in fact, the programme will enforce `lam=0` whenever `spin=0`).
 
 ### Output Files
 
@@ -83,9 +96,9 @@ The program generates output files in the `data/` directory:
 
 - **Filename**: `trace_a_[spin]_Q_[charge]_lambda_[lam]_[pro/ret].dat`
 - **Format**: `t r chi phi kt kr kchi kphi affine_parameter`
-- **Description**: `t`, `r`, `chi`, and `phi` are Boyer-Lindquist coordinates; `kt`, `kr`, `kchi`, and `kphi` are the proper time derivatives of the corresponding coordinates.
+- **Description**: `t`, `r`, `chi`, and `phi` are Boyer-Lindquist coordinates; `kt`, `kr`, `kchi`, and `kphi` are the proper time derivatives of the corresponding coordinates. `affine_parameter` in this case is the proper time `tau` along the trajectory.
 
-**N.B.**: `chi` is the polar angle coordinate related to θ by `chi = cos(θ)`. Therefore the time derivatives are related by `kchi = -sin(θ) * kθ`. The trigonometric substitution is used to improve computation speed.
+**N.B.**: `chi` is related to the polar angle coordinate `theta` by `chi = cos(theta)`. Therefore the time derivatives are related by `kchi = -sin(theta) * ktheta`. The trigonometric substitution is used to improve computation speed.
 
 #### Eigenvalue Data (if eigenswitch=1)
 
@@ -96,19 +109,6 @@ The program generates output files in the `data/` directory:
 
 - `pro`: Prograde orbit ($l_z > 0$)
 - `ret`: Retrograde orbit ($l_z < 0$)
-
-### Building and Dependencies
-
-#### Required Libraries
-
-- Standard C++ libraries
-- Eigen library (for eigenvalue computation) which is already included in the repository under `./Eigen`
-
-#### Compilation
-
-```bash
-g++ -O3 main.cpp -o main
-```
 
 ## Usage of Mathematica Notebooks
 
@@ -164,7 +164,7 @@ Then the Riemann tensor is projected into the LNRF using the tetrad defined in t
 
 Now we can compute the tidal tensor in the LNRF using the projected Riemann tensor and 4-velocity.
 
-The next step is to use Lorentz boosts to boost the LNRF tidal tensor into the particle's locally free-falling frame, giving us the `ClocH` as the desired local tidal tensor.
+The next step is to use Lorentz boosts to boost the LNRF tidal tensor into the particle's locally free-falling frame, giving us `ClocH` as the desired local tidal tensor.
 
 Finally, we can test some known properties of the tidal tensor:
 
