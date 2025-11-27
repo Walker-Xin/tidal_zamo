@@ -2,6 +2,12 @@
 
 This repository provides tools for numerical integration of (time-like) particle geodesics and the calculation the local tidal tensor along along its trajectory.
 
+This work is part of [Xin and Mummery 2025](https://doi.org/10.48550/arXiv.2511.21499). The paper discusses the theoretical background supporting the code implementation, as well as astrophysical applications of tidal tensors.
+
+Please cite the paper if you use this code in your research.
+
+## Overview
+
 The example background spacetime is a Kerr-Newman black hole characterized by spin and charge, but in principle any stationary, axisymmetric metric can be implemented.
 
 The repository is structured into two main components:
@@ -13,9 +19,11 @@ The overall workflow is illustrated below:
 
 ![Architecture flowchart showing the workflow](flowchart.png)
 
-## Usage of Integrator
+## Integrator
 
 The `integrator_unified/` directory contains the C++ code for integrating geodesics and computing tidal tensors.
+
+We implement the Dormand-Prince 8(5,3) Runge-Kutta method with adaptive step sizing for numerical integration. See [Press2007, Chapter 17] for details.
 
 ### File Structure
 
@@ -60,7 +68,7 @@ g++ -O3 main.cpp -o main
 | `scale` | double | Scale factor for angular momentum lz | 1.0 |
 | `eigenswitch` | int | Enable/disable eigenvalue computation along trajectory (0/1) | 1 |
 
-- **spin**: Black hole rotation parameter. Set to 0 for spherical spacetime (automatically switches to Schwarzschild metric).
+- **spin**: Black hole rotation parameter. Set to 0 for spherical spacetime.
 - **charge**: Electric charge of the black hole. Combined with `spin` determines if system is in black hole (`spin**2 + charge**2 <= 1`) or naked singularity (`spin**2 + charge**2 > 1`) regime.
 - **lam**: Controls orbital inclination. `lam=1` means equatorial orbit (`theta=0`), `lam=0` means polar orbit (`theta=pi/2`).
 - **x**: The radius of the Innermost Bound Spherical Orbit (IBSO) for given `spin`, `charge`, and `lam`. By specifying the IBSO radius, the programme calculates the required initial angular momentum so that the photon travels on an IBSO, which is an orbit that starts from infinity but approaches the IBSO radius asymptotically. For generic orbits, one needs to modify the handling of initial conditions in `main.cpp` to allow for arbitrary angular momentum.
@@ -110,7 +118,7 @@ The program generates output files in the `data/` directory:
 - `pro`: Prograde orbit ($l_z > 0$).
 - `ret`: Retrograde orbit ($l_z < 0$).
 
-## Usage of Mathematica Notebooks
+## Mathematica Notebooks
 
 The `notebooks/` directory contains Mathematica notebooks for symbolic calculations of several tensor (matrix) quantities:
 
@@ -126,9 +134,10 @@ They are calculated by the notebook and exported as C++ files which are included
 
 ### Notebook Files
 
-- `tidal_tensor_kerr.nb`: Symbolic calculation for Kerr spacetime (special case of Kerr-Newman with zero charge).
-- `tidal_tensor_newman.nb`: Symbolic calculation for Kerr-Newman spacetime.
-- `tidal_tensor_spherical.nb`: Symbolic calculation for general spherically symmetric spacetime with verifications against a wide range of known results.
+- `tidal_tensor_kerr.nb`: Kerr spacetime (special case of Kerr-Newman with zero charge).
+- `tidal_tensor_newman.nb`: Kerr-Newman spacetime.
+- `tidal_tensor_spherical.nb`: General spherically symmetric spacetime with verifications against a wide range of known results.
+- `tidal_tensor_wormhole.nb`: A rotating wormhole [Teo1998].
 
 ### Workflow of Symbolic Calculation
 
@@ -172,7 +181,7 @@ Finally, we can test some known properties of the tidal tensor:
 2. Always has one row and one column of zeros corresponding to the time direction, implying a zero determinant.
 3. Trace is dependent on the Ricci tensor.
 
-For the Kerr-Newman spacetime, we also verify against tidal eigenvalues reported in the literature (e.g. [Marck1983]).
+For the Kerr spacetime, we also verify against tidal eigenvalues reported in the literature (e.g. [Marck1983]).
 
 #### 4. Numerical Simulation
 
@@ -184,6 +193,8 @@ Note that since the C++ code uses the coordinate $\chi = \cos(\theta)$, we need 
 
 - Bardeen1972 - Rotating black holes: locally nonrotating frames, energy extraction, and scalar synchrotron radiation
 - Marck1983 - Solution to the equations of parallel transport in kerr geometry; Tidal tensor
+- Teo1998 - Rotating traversable wormholes
+- Press2007 - Numerical recipes
 
 ## Acknowledgements
 
