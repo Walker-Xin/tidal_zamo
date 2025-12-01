@@ -70,7 +70,7 @@ g++ -O3 main.cpp -o main
 
 - **spin**: Black hole rotation parameter. Set to 0 for spherical spacetime.
 - **charge**: Electric charge of the black hole. Combined with `spin` determines if system is in black hole (`spin**2 + charge**2 <= 1`) or naked singularity (`spin**2 + charge**2 > 1`) regime.
-- **lam**: Controls orbital inclination. `lam=1` means equatorial orbit (`theta=0`), `lam=0` means polar orbit (`theta=pi/2`).
+- **lam**: Controls orbital inclination. `lam=1` means polar orbit (`theta=0`), `lam=0` means equatorial orbit (`theta=pi/2`).
 - **x**: The radius of the Innermost Bound Spherical Orbit (IBSO) for given `spin`, `charge`, and `lam`. By specifying the IBSO radius, the programme calculates the required initial angular momentum so that the photon travels on an IBSO, which is an orbit that starts from infinity but approaches the IBSO radius asymptotically. For generic orbits, one needs to modify the handling of initial conditions in `main.cpp` to allow for arbitrary angular momentum.
 - **total_iterations**: Controls simulation duration and precision.
 - **scale**: Modifies the angular momentum to explore different orbital configurations.
